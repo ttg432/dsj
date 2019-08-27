@@ -16,16 +16,24 @@ s1_set = set(s1_list)
 s2_set = set(s2_list)
 s_set = s1_set.union(s2_set)
 # s_set: {'那', '号码', '不小', '这', '皮靴', '只', '更合', '了', '合适', '大'}
-print("s_set:", s_set)
+# print("s_set:", s_set)
 # 对所有汉语单词进行编码，给每个汉语一个位置，对应这个位置上放入词的频率
-index = 0
-word_encode_dict = {}
+#从本地文件stop_list中生成停用词表
+stop_list=set()
+with open('stop_list.txt','r',encoding='utf-8') as f:
+    for word_lst in f.readlines():
+        word=word_lst[0]
+        stop_list.add(word)
+#对所有汉语单词进行编码，给每一个汉语一个位置
+index=0
+word_encode_dict={}
 # s_set中已经是唯一了，所以不用判断word_encode_dict中word的唯一性
 for word in s_set:
+    if word in stop_list:
+        continue
     word_encode_dict[word] = index
     index += 1
-print(word_encode_dict)
-
+print("hahaha",word_encode_dict)
 
 # word count
 # s1_dict={}
@@ -72,6 +80,7 @@ print(word_tf(s2_dict))
 c = "为什么就喜欢皮靴呢？运动鞋怎么样？"
 # 1.切词
 c_lst = [x for x in jieba.cut(c, cut_all=True) if x != '']
+print(c_lst)
 # 2.转数组(数组大小（sparse[]）就是字典大小)  文本数据向量有多大
 '''
 dense vector  稠密向量
